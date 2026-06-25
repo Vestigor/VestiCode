@@ -5,19 +5,9 @@
 
 ## 下载与安装
 
-发布版为**自包含单文件**：目标机**无需安装 .NET 运行时、无需联网**，解压即可安装。
+发布版为**自包含单文件**（无需 .NET、无需联网）。下载与安装步骤见 **[使用说明.md](使用说明.md)**。
 
-1. 前往 [Releases](https://github.com/Vestigor/VestiCode/releases/tag/VestiCode_v0.1.0) 下载对应平台的安装包：
-
-   | 平台 | 安装包 |
-   |------|--------|
-   | macOS (Apple Silicon) | `vesticode-0.1.0-osx-arm64.tar.gz` |
-   | Windows x64 | `vesticode-0.1.0-win-x64.zip` |
-   | Linux x64 | `vesticode-0.1.0-linux-x64.tar.gz` |
-
-2. 解压后，查看安装包内的 `README.md`，按其中的平台说明完成安装。
-
-> 从源码构建/开发请见下方「快速开始」。打包发布流程见 [scripts/README.md](scripts/README.md)。
+> 从源码构建/开发见下方「快速开始」；打包发布流程见 [scripts/README.md](scripts/README.md)。
 
 ## 特性
 
