@@ -3,6 +3,22 @@
 终端 AI 编程助手（Claude Code 风格），用 **C# / .NET 10** 开发。可作为 `vesticode` CLI 在任意项目目录中开发代码。
 
 
+## 下载与安装
+
+发布版为**自包含单文件**：目标机**无需安装 .NET 运行时、无需联网**，解压即可安装。
+
+1. 前往 [Releases](https://github.com/Vestigor/VestiCode/releases/tag/VestiCode_v0.1.0) 下载对应平台的安装包：
+
+   | 平台 | 安装包 |
+   |------|--------|
+   | macOS (Apple Silicon) | `vesticode-0.1.0-osx-arm64.tar.gz` |
+   | Windows x64 | `vesticode-0.1.0-win-x64.zip` |
+   | Linux x64 | `vesticode-0.1.0-linux-x64.tar.gz` |
+
+2. 解压后，查看安装包内的 `README.md`，按其中的平台说明完成安装。
+
+> 从源码构建/开发请见下方「快速开始」。打包发布流程见 [scripts/README.md](scripts/README.md)。
+
 ## 特性
 
 - **多 Provider**：Anthropic Claude / OpenAI / DeepSeek，SSE 流式逐字输出；DeepSeek reasoner 推理以 `[Reasoning]` 渲染

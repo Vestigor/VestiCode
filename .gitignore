@@ -17,7 +17,3 @@ appsettings.*.local.json
 DEMO.md
 PRESENTATION.md
 examples/
-
-# 打包/发布相关（仅本地保留，不入库）
-packaging/
-scripts/
