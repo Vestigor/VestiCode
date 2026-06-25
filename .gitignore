@@ -1,0 +1,23 @@
+# Build output
+bin/
+obj/
+dist/
+# Logs
+logs/
+*.log
+# Local config / secrets
+appsettings.*.local.json
+*.user
+.vs/
+
+# OS
+.DS_Store
+
+# 演示/展示用文档（仅本地保留，不入库）
+DEMO.md
+PRESENTATION.md
+examples/
+
+# 打包/发布相关（仅本地保留，不入库）
+packaging/
+scripts/

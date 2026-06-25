@@ -1,0 +1,10 @@
+{
+  "VestiCode": {
+    "ActiveProvider": "deepseek",
+    "Providers": [
+      { "Name": "openai",    "Model": "gpt-4o",            "ApiKey": "" },
+      { "Name": "anthropic", "Model": "claude-sonnet-4-6", "ApiKey": "" },
+      { "Name": "deepseek",  "Model": "deepseek-chat",     "ApiKey": "" }
+    ]
+  }
+}

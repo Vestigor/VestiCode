@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <!-- 可执行文件名为 vesticode（构建后 bin 下直接产出 `vesticode` 原生宿主） -->
+    <AssemblyName>vesticode</AssemblyName>
+    <!-- UserSecrets：API Key 存本地，永不入仓 -->
+    <UserSecretsId>vesticode-cli</UserSecretsId>
+
+    <!-- 打包为 .NET 全局工具：dotnet pack 后可 install 得到 `vesticode` 命令 -->
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>vesticode</ToolCommandName>
+    <PackageId>VestiCode</PackageId>
+    <Version>0.1.0</Version>
+  </PropertyGroup>
+
+  <!-- 宿主：Generic Host + 配置 + 日志 -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="10.0.9" />
+    <PackageReference Include="Serilog" Version="4.3.1" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="10.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
+    <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+    <PackageReference Include="Spectre.Console" Version="0.57.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VestiCode.Core\VestiCode.Core.csproj" />
+  </ItemGroup>
+
+  <!-- 随发布物分发：可配置项示例（LLM / MCP / Hooks / Teams / Role） -->
+  <ItemGroup>
+    <None Include="$(RepoRoot)config-examples/example.appsettings.json" Link="config-examples/example.appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(RepoRoot)config-examples/example.mcp.yaml" Link="config-examples/example.mcp.yaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(RepoRoot)config-examples/example.hooks.yaml" Link="config-examples/example.hooks.yaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(RepoRoot)config-examples/example.team.json" Link="config-examples/example.team.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(RepoRoot)config-examples/example.role.md" Link="config-examples/example.role.md" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

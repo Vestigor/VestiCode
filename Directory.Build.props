@@ -1,0 +1,17 @@
+<Project>
+
+  <!-- 全仓库统一构建设置：所有 csproj 自动继承 -->
+  <PropertyGroup>
+    <!-- 课程要求 .NET 8+；本机装的是 .NET 10 SDK/运行时，直接目标 net10.0 -->
+    <TargetFramework>net10.0</TargetFramework>
+
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+
+    <!-- 仓库根，供各项目定位资源 -->
+    <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
+  </PropertyGroup>
+
+</Project>

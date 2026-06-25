@@ -1,0 +1,10 @@
+// 内置 Provider 推导表（开发者维护，嵌入二进制，替代旧的内置 appsettings 模板）。
+// 用户只配 Name / Model / ApiKey；这里把 Name 推导成 Protocol + BaseUrl。
+// 加新后端：在此追加一条即可，无需改代码。
+//   - Protocol 决定用哪个 Provider 实现：openai（OpenAI 兼容族，含 DeepSeek/Kimi/GLM/Ollama 等）/ anthropic
+//   - BaseUrl   该后端的 API 基址
+[
+  { "Name": "openai",    "Protocol": "openai",    "BaseUrl": "https://api.openai.com/v1" },
+  { "Name": "anthropic", "Protocol": "anthropic", "BaseUrl": "https://api.anthropic.com" },
+  { "Name": "deepseek",  "Protocol": "openai",    "BaseUrl": "https://api.deepseek.com" }
+]

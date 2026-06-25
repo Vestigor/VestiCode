@@ -1,0 +1,32 @@
+# VestiCode MCP 服务器配置示例
+# 使用方法：
+#   全局（所有项目生效）  → ~/.vesticode/mcp.yaml
+#   项目级（覆盖全局同名） → ./.vesticode/mcp.yaml
+# 无内置默认：不配此文件即没有任何 MCP server。
+#
+# 占位符（加载时展开，使一份配置可跨项目复用）：
+#   ${cwd} / ${workspaceRoot}  当前工作目录（启动 vesticode 的项目根）
+#   ${home}                    用户主目录
+#   ${env:NAME}                环境变量 NAME
+# 路径类参数（绝对路径或 ./ ../ 开头）：为有效目录则用之，否则回退当前工作目录。
+#
+# 工具命名：注册为 {server}__{tool}（如 fs__read_file），避免与内置工具冲突。
+# 连接失败：仅记警告、不阻塞启动；每个 server 的连接超时由其 timeout（秒）控制。
+
+servers:
+  # --- Stdio 传输：本地子进程（需已安装 node/npx 及对应 server 包）---
+  - name: fs
+    transport: stdio
+    command: npx
+    args: [-y, "@modelcontextprotocol/server-filesystem", "${cwd}"]   # 沙箱根 = 当前项目目录
+    env:                                  # 可选：子进程环境变量
+      NODE_ENV: production
+    timeout: 30
+
+  # --- Streamable HTTP 传输：远程服务（需该地址有真实 MCP server）---
+  - name: my-remote-server
+    transport: http
+    url: http://localhost:8080
+    headers:                             # 可选：认证头（支持 ${env:} 占位符）
+      Authorization: "Bearer ${env:MY_MCP_TOKEN}"
+    timeout: 30

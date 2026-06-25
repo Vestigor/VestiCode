@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.9" />
+    <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" Version="10.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.9" />
+    <PackageReference Include="YamlDotNet" Version="16.3.0" />
+  </ItemGroup>
+
+  <!-- 模块化 Prompt、内置 Skill / 角色：以嵌入资源随程序集分发 -->
+  <ItemGroup>
+    <EmbeddedResource Include="Prompts/Modules/*.txt" />
+    <EmbeddedResource Include="Prompts/Injections/*.txt" />
+    <EmbeddedResource Include="Skills/Builtin/*.md" />
+    <EmbeddedResource Include="SubAgents/Roles/*.md" />
+    <EmbeddedResource Include="Llm/providers.json" />
+  </ItemGroup>
+
+</Project>

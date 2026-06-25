@@ -1,0 +1,11 @@
+{
+  "Name": "example",
+  "Description": "示例团队：planner 拆解目标，explorer 探索 + general 实现",
+  "LeadRole": "planner",
+  "DispatchMode": true,
+  "MaxRoundsPerMember": 10,
+  "Members": [
+    { "Name": "scout",   "Role": "explorer", "Worktree": "scout" },
+    { "Name": "builder", "Role": "general",  "Worktree": "builder" }
+  ]
+}

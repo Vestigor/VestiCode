@@ -1,0 +1,114 @@
+# VestiCode Hook 配置示例
+# 使用方法：
+#   全局（所有项目生效）→ ~/.vesticode/hooks.yaml
+#   项目级（与全局并集）→ ./.vesticode/hooks.yaml
+# 无内置默认：不配此文件即没有任何 hook。
+#
+# 已接入的事件（Agent 生命周期实际触发点）：
+#   tool_pre_exec        工具执行前（可拦截：prompt_inject 返回的文本作为拒绝原因回灌）
+#   tool_post_exec       工具执行后（上下文额外含 success）
+#   message_post_receive 收到模型回复后
+#   round_start          每轮开始
+# （枚举里还有 session_start/end、round_end、message_pre_send、system_* 等，暂未全部触发）
+#
+# 条件 condition：
+#   match: ALL | ANY
+#   operator: exact | not | regex | glob
+#   field 支持点路径，按事件可用：
+#     tool_pre_exec/post:   tool_name、params.<参数名>（如 params.command / params.path）、success(仅 post)
+#     message_post_receive: text、tool_calls_count
+#     round_start:          round_number、max_rounds
+#     任意事件:             _event（事件名）
+#
+# 动作 actions（type）：
+#   prompt_inject  text     回灌提示（拦截事件用它的返回值作为拒绝原因）
+#   shell          command  执行命令，输出截断 2000 字
+#   http           url/method/headers/body  发请求
+#   sub_agent      task     交给子 Agent
+# 文本字段支持 {{var}} / {{a.b}} 模板（未定义变量替换为空）。
+#
+# 控制 control：
+#   once: true     只触发一次
+#   async: true    异步执行（不阻塞主流程）；拦截事件 tool_pre_exec 不允许 async: true（加载报错）
+#   timeout: 秒    动作超时（默认 30）
+# 校验：未知事件名 / 非法 operator / 拦截事件 async=true → 加载时报错并定位到具体规则。
+
+hooks:
+  # --- 工具拦截：阻止危险命令（tool_pre_exec，prompt_inject 回灌拒绝原因）---
+  - name: block-dangerous-commands
+    event: tool_pre_exec
+    condition:
+      match: ALL
+      rules:
+        - field: tool_name
+          operator: exact
+          value: run_command
+        - field: params.command
+          operator: regex
+          value: "rm\\s+-rf"
+    actions:
+      - type: prompt_inject
+        text: "拦截原因：命令 '{{params.command}}' 含危险操作 rm -rf，已被 Hook 阻止。请改用更安全、可逆的方式。"
+    control:
+      once: false
+      async: false        # 拦截事件不允许异步
+
+  # --- 保护敏感文件：glob 匹配路径（tool_pre_exec）---
+  - name: protect-sensitive-files
+    event: tool_pre_exec
+    condition:
+      match: ANY
+      rules:
+        - field: params.path
+          operator: glob
+          value: "**/.env*"
+        - field: params.path
+          operator: glob
+          value: "**/*.key"
+    actions:
+      - type: prompt_inject
+        text: "路径 '{{params.path}}' 命中敏感文件规则（.env / *.key），已阻止。请先与用户确认。"
+
+  # --- 工具执行后：记录文件写入（tool_post_exec，shell 异步）---
+  - name: log-file-writes
+    event: tool_post_exec
+    condition:
+      match: ANY
+      rules:
+        - field: tool_name
+          operator: exact
+          value: write_file
+        - field: tool_name
+          operator: exact
+          value: edit_file
+    actions:
+      - type: shell
+        command: "echo [{{_event}}] {{tool_name}} {{params.path}} success={{success}} >> ${HOME}/.vesticode/logs/file_changes.log"
+    control:
+      async: true
+      timeout: 5
+
+  # --- 收到回复后：纯文本回复（无工具调用）时通知（message_post_receive）---
+  - name: notify-on-final-response
+    event: message_post_receive
+    condition:
+      match: ALL
+      rules:
+        - field: tool_calls_count
+          operator: exact
+          value: "0"
+    actions:
+      - type: shell
+        command: "echo VestiCode 完成一次回复（{{tool_calls_count}} 次工具调用）"
+    control:
+      async: true
+
+  # --- 仅首轮提示一次（round_start + once）---
+  - name: greet-once
+    event: round_start
+    actions:
+      - type: shell
+        command: "echo 开始处理（第 {{round_number}}/{{max_rounds}} 轮）"
+    control:
+      once: true
+      async: true
