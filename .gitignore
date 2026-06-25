@@ -12,8 +12,3 @@ appsettings.*.local.json
 
 # OS
 .DS_Store
-
-# 演示/展示用文档（仅本地保留，不入库）
-DEMO.md
-PRESENTATION.md
-examples/
