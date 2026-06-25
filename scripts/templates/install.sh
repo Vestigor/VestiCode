@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # 离线安装 vesticode（随发布压缩包分发）：把同目录的预构建二进制装到 ~/.local/bin。
 #
-# 目标机无需 .NET 运行时、无需联网——二进制为自包含单文件。
+# 目标机无需 .NET 运行时——二进制为自包含单文件。
 # 用法：
 #   ./install.sh                 # 装到 ~/.local/bin
 #   VESTICODE_BIN_DIR=/usr/local/bin sudo ./install.sh   # 自定义安装目录

@@ -1,6 +1,6 @@
 # 离线安装 vesticode（随发布压缩包分发）：把同目录的预构建 vesticode.exe 装到用户目录并配 PATH。
 #
-# 目标机无需 .NET 运行时、无需联网——exe 为自包含单文件。
+# 目标机无需 .NET 运行时——exe 为自包含单文件。
 # 用法（PowerShell）：
 #   .\install.ps1
 # 若提示脚本被禁用：
